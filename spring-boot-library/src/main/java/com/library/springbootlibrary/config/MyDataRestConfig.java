@@ -1,6 +1,7 @@
 package com.library.springbootlibrary.config;
 
 import com.library.springbootlibrary.entity.Book;
+import com.library.springbootlibrary.entity.Message;
 import com.library.springbootlibrary.entity.Review;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
@@ -15,7 +16,7 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
 
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config,
-                                                     CorsRegistry cors){
+                                                     CorsRegistry cors) {
         HttpMethod[] theUnsupportedActions = {
                 HttpMethod.PUT,
                 HttpMethod.PATCH,
@@ -24,9 +25,11 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
 
         config.exposeIdsFor(Book.class);
         config.exposeIdsFor(Review.class);
+        config.exposeIdsFor(Message.class);
 
         disableHttpMethods(Book.class, config, theUnsupportedActions);
         disableHttpMethods(Review.class, config, theUnsupportedActions);
+        disableHttpMethods(Message.class, config, theUnsupportedActions);
 
 
         /* Configure CORS Mapping*/
@@ -34,8 +37,9 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
                 .allowedOrigins(theAllowedOrigins);
 
     }
+
     private void disableHttpMethods(Class theClass, RepositoryRestConfiguration config,
-                                    HttpMethod[] theUnsupportedActions){
+                                    HttpMethod[] theUnsupportedActions) {
         config.getExposureConfiguration()
                 .forDomainType(theClass)
                 .withItemExposure((metdata, httpMethods) ->
