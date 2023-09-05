@@ -21,6 +21,7 @@ public class BookController {
         this.bookService = bookService;
     }
 
+
     @GetMapping("/secure/currentloans")
     public List<ShelfCurrentLoansResponse> currentLoans(@RequestHeader(value = "Authorization") String token) throws Exception{
         String userEmail = ExtractJWT.payloadJWTExtraction(token, "\"sub\"");
@@ -58,6 +59,7 @@ public class BookController {
         String userEmail = ExtractJWT.payloadJWTExtraction(token, "\"sub\"");
         bookService.renewLoan(userEmail, bookId);
     }
+
 
 }
 
